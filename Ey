@@ -1,0 +1,59 @@
+import java.util.Arrays;
+
+public class VaultBruteForce {
+
+    static String secretCode = "4321";
+
+    public static void main(String[] args) {
+        int[] numbers = {1, 2, 3, 4};
+
+        permute(numbers, 0);
+    }
+
+    // Генерация перестановок
+    public static void permute(int[] arr, int index) {
+
+        if (index == arr.length) {
+
+            // Превращаем массив в строку
+            String attempt = "";
+            for (int num : arr) {
+                attempt += num;
+            }
+
+            // Security Delay (100 ms)
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("Trying: " + attempt);
+
+            // Проверка правильного кода
+            if (attempt.equals(secretCode)) {
+                System.out.println("\n✅ Secret Code Found: " + attempt);
+                System.exit(0);
+            }
+
+            return;
+        }
+
+        // Перебор перестановок через swap
+        for (int i = index; i < arr.length; i++) {
+
+            swap(arr, index, i);
+
+            permute(arr, index + 1);
+
+            swap(arr, index, i); // backtrack
+        }
+    }
+
+    // Swap функция
+    public static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
