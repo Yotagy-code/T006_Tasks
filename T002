@@ -1,0 +1,16 @@
+public class BruteForceDemo {
+    public static void main(String[] args) {
+
+        String correctPassword = "2580";
+
+        for (int i = 0; i <= 9999; i++) {
+
+            String attempt = String.format("%04d", i);
+
+            if (attempt.equals(correctPassword)) {
+                System.out.println("Пароль найден: " + attempt);
+                break;
+            }
+        }
+    }
+}
