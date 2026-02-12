@@ -1,0 +1,62 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        int[] items = {0, 1, 2, 3};
+        int[] capacity = {22, 10, 9, 7};
+        int[] value = {19, 9, 9, 6};
+
+        int limit = 25;
+
+        // создаем список предметов
+        class Item {
+            int id, cap, val;
+            double ratio;
+
+            Item(int id, int cap, int val) {
+                this.id = id;
+                this.cap = cap;
+                this.val = val;
+                this.ratio = (double) val / cap;
+            }
+        }
+
+        List<Item> list = new ArrayList<>();
+
+        for (int i = 0; i < items.length; i++) {
+            list.add(new Item(items[i], capacity[i], value[i]));
+        }
+
+        // сортируем по ratio убыванию
+        list.sort((a, b) -> Double.compare(b.ratio, a.ratio));
+
+        double totalValue = 0;
+        int remaining = limit;
+
+        System.out.println("Selected items:");
+
+        for (Item it : list) {
+            if (remaining == 0) break;
+
+            if (it.cap <= remaining) {
+                // берем полностью
+                remaining -= it.cap;
+                totalValue += it.val;
+
+                System.out.println("Item " + it.id + " taken 100%");
+            } else {
+                // берем часть
+                double fraction = (double) remaining / it.cap;
+                totalValue += it.val * fraction;
+
+                System.out.println("Item " + it.id +
+                        " taken " + (fraction * 100) + "%");
+
+                remaining = 0;
+            }
+        }
+
+        System.out.println("\nMax value = " + totalValue);
+    }
+}
